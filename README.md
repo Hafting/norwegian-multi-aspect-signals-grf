@@ -1,16 +1,22 @@
-# Multi-Aspect Signals NewGRF
+# Norwegian Multi-Aspect Signals NewGRF
 
-![Sample image](https://raw.githubusercontent.com/wiki/JGRennison/multi-aspect-signals-grf/sample-image.png)
+### Features and planned features
 
-### Features
+* This GRF includes 3-aspect main signal graphics (red, single green, double green) for path and one-way path signal types.
+* Planned: 3-aspect distant signals, for use with 3-aspect main signals (yellow, green+yellow, green)
+* Planned: 4 aspect signal graphics consisting of a main 3-aspect signal plus a distant signal on the same mast 
+* Planned: 3-aspect dwarf signals for shunting  ..   .·   :
+* Planned: combined main and dwarf signal
+* Planned: 2-aspect signals (red, white) and distant signals (violet+white) for level crossings
+* Planned: 2-aspect simplified/temporary signal (red, green).   
 
-* This GRF includes 4-aspect signal graphics (red, yellow, double-yellow, green) for the block signal, path and one-way path signal types.
-* Two different styles of block signal graphics are included. Use the GRF parameter to select which to use.
-* Custom signal styles: shunt, banner repeater and combined normal/shunt, this is enabled by a GRF parameter.
-* Two different heights of path signal graphics are included. Use the GRF parameter to select which to use, or whether it depends on the available vertical clearance. Short path signals requires that block signals are using traditional graphics.
+### Use cases
+
+* 3- and 4-aspect signals adds some realism, and affect how trains move
+* Distant signals allows a realistic look, but don't affect what happens in the game. Trains don't stop at distant signals, they inform on the state of the next main signal.
+* 2-aspect signals works just like standard game path-based signals. They are provided for looks.
 
 ### Requirements
-
 * This GRF requires a non-standard version of OpenTTD which supports the signal graphics and multi-aspect features such as [JGR's patchpack](https://github.com/JGRennison/OpenTTD-patches) v0.43.0 or later.
 * Realistic braking must be enabled for multi-aspect signalling to be enabled.
 * Custom signal styles require a non-standard version of OpenTTD which supports this feature such as [JGR's patchpack](https://github.com/JGRennison/OpenTTD-patches) v0.48.0 or later.
@@ -18,11 +24,7 @@
 
 ### Things not included
 
-* This GRF does not include semaphores or any type of pre-signal.
-
-### More information
-
-* For more information on GRF parameters and the different signal types, see the [Wiki](https://github.com/JGRennison/multi-aspect-signals-grf/wiki).
+* This GRF does not include semaphores
 
 ### Development
 
@@ -37,5 +39,5 @@
 
 ### Credits
 
-* Yellow block signals (traditional style) by [kiwitreekor](https://github.com/kiwitreekor).
-* Signal sprites are adapted from [OpenGFX](https://github.com/OpenTTD/OpenGFX).
+* The newgrf is based on J.G. Rennisons multi-aspect-signals-grf
+* The signals are a subset of signals used by Norwegian railroad.
