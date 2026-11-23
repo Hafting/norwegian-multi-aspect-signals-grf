@@ -1,11 +1,11 @@
 # Norwegian Multi-Aspect Signals NewGRF
 
 ### Features and planned features
-
-* This GRF includes 3-aspect main signal graphics (red, single green, double green) for path and one-way path signal types.
+This GRF includes:
+* 3-aspect main signal graphics (red, single green, double green) for path and one-way path signal types.
+* 3-aspect dwarf signals for shunting  ..   .·   :
 * Planned: 3-aspect distant signals, for use with 3-aspect main signals (yellow, green+yellow, green)
 * Planned: 4 aspect signal graphics consisting of a main 3-aspect signal plus a distant signal on the same mast 
-* Planned: 3-aspect dwarf signals for shunting  ..   .·   :
 * Planned: combined main and dwarf signal
 * Planned: 2-aspect signals (red, white) and distant signals (violet+white) for level crossings
 * Planned: 2-aspect simplified/temporary signal (red, green).   
