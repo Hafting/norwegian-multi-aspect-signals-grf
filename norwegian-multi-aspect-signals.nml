@@ -418,7 +418,7 @@ item (FEAT_SIGNALS, custom_signals, 0) {
             define_style: 2;
             style_name: string(STR_STYLE_SHUNT_OPPOSITE);
             style_electric_enabled: 0x90; //1:NORM 2:ENTRY 4:EXIT 8:COMBO 10:PBS 20:PBS_ONEWAY 40:PROG 80:NO_ENTRY
-            style_no_aspect_increase: 1;
+            //style_no_aspect_increase: 1; //stops at 2 aspects
             style_lookahead_single_signal_only: 1;
             style_opposite_side: 0x1;
 
