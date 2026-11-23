@@ -5,10 +5,10 @@
 */
 
 grf {
-    grfid: "HH\01\01";
+    grfid: "HH\01\01";                 //First set, first version
     name: string(STR_GRF_NAME);
     desc: string(STR_GRF_DESCRIPTION);
-    version: 0;
+    version: 0;                        //v0, does not have all the planned functionality
     min_compatible_version: 0;
     url: string(STR_GRF_URL);
 
@@ -182,9 +182,9 @@ spriteset (signals_pbs_oneway_green_short, "gfx/light-generic.png") { tmpl_pbs_s
 spriteset (signals_pbs_oneway_y_short,     "gfx/light-generic.png") { tmpl_pbs_signals(10, 363) }
 spriteset (signals_pbs_oneway_yy_short,    "gfx/light-generic.png") { tmpl_pbs_signals(26, 363) }
 
-spriteset (signals_shunt_red,   "gfx/shunt.png") { tmpl_signals(10, 50) }
-spriteset (signals_shunt_white, "gfx/shunt.png") { tmpl_signals(40, 50) }
-spriteset (signals_shunt_no_entry, "gfx/shunt.png") { tmpl_signals(10, 100) }
+spriteset (signals_shunt_stop,   "gfx/shunt.png") { tmpl_signals(10, 50) }
+spriteset (signals_shunt_go,     "gfx/shunt.png") { tmpl_signals(40, 50) }
+spriteset (signals_shunt_slow,   "gfx/shunt.png") { tmpl_signals(10, 100) }
 
 spriteset (signals_block_banner_on,       "gfx/banner.png") { tmpl_signals(10,  50) }
 spriteset (signals_block_banner_off,      "gfx/banner.png") { tmpl_signals(40,  50) }
@@ -192,10 +192,6 @@ spriteset (signals_pbs_banner_on,         "gfx/banner.png") { tmpl_signals(10, 1
 spriteset (signals_pbs_banner_off,        "gfx/banner.png") { tmpl_signals(40, 100) }
 spriteset (signals_pbs_oneway_banner_on,  "gfx/banner.png") { tmpl_signals(10, 150) }
 spriteset (signals_pbs_oneway_banner_off, "gfx/banner.png") { tmpl_signals(40, 150) }
-//Eksperiment. Replace with short signals, to get dist. signal with lights
-//replace signals_pbs_oneway_banner_on   with signals_combined_oneway_green_short
-//replace signals_pbs_oneway_banner_off  with signals_combined_oneway_red_short
-//add also                                    signals_combined_oneway_yy_short
 
 spriteset (signals_combined_red,   "gfx/light-combined.png") { tmpl_signals_combined(10, 50) }
 spriteset (signals_combined_green, "gfx/light-combined.png") { tmpl_signals_combined(40, 50) }
@@ -279,23 +275,27 @@ switch(FEAT_SIGNALS, SELF, signal_switch_pbs_oneway, [
     signals_pbs_oneway_green; //default, catches unused higher aspects
 }
 
+//Shunt signals, 3 aspects.  
+//stop ..  
+//slow .·  
+//  go :
 switch(FEAT_SIGNALS, SELF, signal_switch_shunt, [
         STORE_TEMP(hasbit(extra_callback_info2, 24) ? param[10] : 0, 0x100),
         (extra_callback_info2 & 0x000000FF)
     ]) {
-    0: signals_shunt_red;
-//    signals_shunt_white;
-//    0xFF: signals_shunt_white; //skjedde ikke? 0xFF i stedet?
-    2: signals_shunt_no_entry; //test, 3 aspect shunt? ja, det virker, når vi tar vekk style_no_aspect_increase
-    signals_shunt_white;     //default, virker for "alle andre" cases.  Nødv. for å unngå rare signaler. (eksta aspecter ikke i bruk)
+    0: signals_shunt_stop;
+    2: signals_shunt_slow; 
+    signals_shunt_go;
 }
 
+/*
 switch(FEAT_SIGNALS, SELF, signal_switch_shunt_no_entry, [
         STORE_TEMP(hasbit(extra_callback_info2, 24) ? param[10] : 0, 0x100),
         (extra_callback_info2 & 0x000000FF)
     ]) {
     signals_shunt_no_entry;
 }
+*/
 
 switch(FEAT_SIGNALS, SELF, signal_switch_banner_block, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
@@ -319,9 +319,6 @@ switch(FEAT_SIGNALS, SELF, signal_switch_banner_pbs_oneway, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
         (extra_callback_info2 & 0x000000FF)
     ]) {
-//    0: signals_combined_oneway_green_short;  //signals_pbs_oneway_banner_on Ingen effekt?
-//    2: signals_combined_oneway_yy_short;  //signals_pbs_oneway_banner_on    Ble gul foran rød
-//    signals_combined_oneway_red_short;    //signals_pbs_oneway_banner_off   Ble rød foran grønn
 
 //ser ut som alt forskyves ett hakk. rødt hovedsignal => laveste grønn
 //en eller annen grønn på hoved, => ett hakk grønnere.
@@ -332,30 +329,10 @@ switch(FEAT_SIGNALS, SELF, signal_switch_banner_pbs_oneway, [
     2: signals_combined_oneway_red_short; //rødt forsignal
     3: signals_combined_oneway_y_short; //single gul forsignal, før 1. aspect
     4: signals_combined_oneway_yy_short; //dbl. gul, før 2. aspect
-//    5: signals_combined_oneway_yy_short;
-//    6: signals_combined_oneway_yy_short;
-//    7: signals_combined_oneway_yy_short;
 
     signals_combined_oneway_red_short; //vel, rødt et kort øyeblikk i det toget passerer signalet. Stemmer ikke egentlig for et forsignal, neste kan være hva som helst. Bedre enn alternativer - signalet skifter når toget passerer. Hovedsignalet vil uansett bli rødt når toget passerer der også, så da vil det stemme.
 
-    //Men, hvordan få to prikker _yy_  foran andre aspect?   0:rød, 1:grønn, 2:1.aspect 3:2.aspect ?   For tiden får vi grønn!
-    //Må vel bruke en kludge. Et tredje ekstra aspect (5-aspect). Da får vi det fjerde, det blir det femte som "aldri dukker opp"
-    //Hva effekt får det på alle andre signaler? Må 5. aspect undertrykkes overalt?
 }
-
-//questions: The same number of aspects for all signals, or 4 aspects for these, 3 for these and 2 for those?
-//            I can always have fewer visible aspects, by defaulting extras to the same look as the last valid aspect. 
-//            But effects on the game?
-//           is the extra aspect kludge necessary, to have a "distant signal" ?
-//            Banner repeater modified to show all aspects, to act as a distant signal - noticed that these aspects are shifted.
-//            Aspect 0 does not happen, but appear as aspect 2. (see code that makes it work)
-//            The last aspect do not happen, the number is clipped to "extra_aspects" so the two last aspects become the same.
-//            Kludgy fix: add an extra aspect!  And avoid using it, by making it look like the real last aspect. Now distant
-//            signals work!  But will this subtle extra aspect have any effect on gameplay?
-//           there is a blinking red color. Is there a way to have blinking green, yellow, white, violet? All must blink together.
-//           questions about shunt signal. Why the special casing?  I use 3 aspect shunt, because the railway does. 
-
-
 
 
 switch(FEAT_SIGNALS, SELF, signal_switch_combined_pbs, [
@@ -398,8 +375,8 @@ switch(FEAT_SIGNALS, SELF, switch_signals, (extra_callback_info2 & 0x00FFFF00) |
     0x50000: signal_switch_pbs_oneway;   //light, PBS oneway
     0x40001: signal_switch_shunt;        //shunt
     0x40002: signal_switch_shunt;        //shunt (opposite)
-    0x70001: signal_switch_shunt_no_entry; //shunt no entry
-    0x70002: signal_switch_shunt_no_entry; //shunt no entry (opposite)
+//    0x70001: signal_switch_shunt_no_entry; //shunt no entry
+//    0x70002: signal_switch_shunt_no_entry; //shunt no entry (opposite)
         0x3: signal_switch_banner_block; //banner, block
     0x40003: signal_switch_banner_pbs;   //banner, PBS
     0x50003: signal_switch_banner_pbs_oneway; //banner, PBS oneway
@@ -413,7 +390,7 @@ item (FEAT_SIGNALS, custom_signals, 0) {
         enable_restricted_signals: param_routing_restriction;
         enable_signal_recolour: 1;
 //        extra_aspects: param_aspect_style > 0 ? 2 : 1;   //2 eller 1 ekstra aspect. Må det gjelde alle??? kan vi ha ulike s. med ulike antall aspects?
-        extra_aspects: 3; //Noen bruker 2, noen 1, noen 0.  3 for å få forsignaler til å virke
+        extra_aspects: 2; //Noen bruker 2, noen 1, noen 0.
     }
 
     graphics {
