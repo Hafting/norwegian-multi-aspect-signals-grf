@@ -1,9 +1,9 @@
 # Norwegian Multi-Aspect Signals NewGRF
 
 ### Features and planned features
-This GRF includes:
+This GRF includes railway signals used by Norwegian railway:
 * 3-aspect main signal graphics (red, single green, double green) for path and one-way path signal types.
-* 3-aspect dwarf signals for shunting  ..   .·   :
+* 3-aspect dwarf signals for shunting   [..]    [.·]    [: ]
 * Planned: 3-aspect distant signals, for use with 3-aspect main signals (yellow, green+yellow, green)
 * Planned: 4 aspect signal graphics consisting of a main 3-aspect signal plus a distant signal on the same mast 
 * Planned: combined main and dwarf signal
@@ -40,4 +40,4 @@ This GRF includes:
 ### Credits
 
 * The newgrf is based on J.G. Rennisons multi-aspect-signals-grf
-* The signals are a subset of signals used by Norwegian railroad.
+* The signals are a subset of signals used by Norwegian railroad. See https://orv.banenor.no/trafikkregler-for-jernbanenettet/kapittel-8/

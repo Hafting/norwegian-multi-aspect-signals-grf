@@ -336,6 +336,14 @@ switch(FEAT_SIGNALS, SELF, signal_switch_banner_pbs_oneway, [
 
 }
 
+/*
+Norwegian rules for combined signals (main signal and dwarf signal on the same mast)
+Train routed through green main signals: dwarf signal must show "go"
+Main signal red and no shunting: dwarf signal must show "stop"
+Main signal red, but shunting allowed: dwarf signal overrides the main signal using "go" or "slow"
+
+*/
+
 
 switch(FEAT_SIGNALS, SELF, signal_switch_combined_pbs, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
