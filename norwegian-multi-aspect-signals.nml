@@ -341,7 +341,7 @@ Norwegian rules for combined signals (main signal and dwarf signal on the same m
 Train routed through green main signals: dwarf signal must show "go"
 Main signal red and no shunting: dwarf signal must show "stop"
 Main signal red, but shunting allowed: dwarf signal overrides the main signal using "go" or "slow"
-
+UK is different, they turn the dwarf signal off in some cases.
 */
 
 
@@ -352,13 +352,13 @@ switch(FEAT_SIGNALS, SELF, signal_switch_combined_pbs, [
     0: signals_combined_red;
     1: signals_combined_green;
     2: signals_combined_y;
-    3: signals_combined_yy;
+    3: signals_combined_green; //We do 3 aspects only
     0xFF: signals_combined_shunt;
 
     0x100: signals_combined_red_short;
     0x101: signals_combined_green_short;
     0x102: signals_combined_y_short;
-    0x103: signals_combined_yy_short;
+    0x103: signals_combined_green_short; //We do 3 aspects only
     0x1FF: signals_combined_shunt_short;
 }
 
@@ -369,13 +369,13 @@ switch(FEAT_SIGNALS, SELF, signal_switch_combined_pbs_oneway, [
     0: signals_combined_oneway_red;
     1: signals_combined_oneway_green;
     2: signals_combined_oneway_y;
-    3: signals_combined_oneway_yy;
+    3: signals_combined_oneway_green; //3 aspects only
     0xFF: signals_combined_oneway_shunt;
 
     0x100: signals_combined_oneway_red_short;
     0x101: signals_combined_oneway_green_short;
     0x102: signals_combined_oneway_y_short;
-    0x103: signals_combined_oneway_yy_short;
+    0x103: signals_combined_oneway_green_short; //3 aspects only
     0x1FF: signals_combined_oneway_shunt_short;
 }
 
