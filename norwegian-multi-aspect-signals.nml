@@ -175,6 +175,23 @@ spriteset (signals_pbs_oneway_yy,    "gfx/light-norwegian.png") { tmpl_pbs_signa
 spriteset (signals_new_block_red,    "gfx/light-generic.png") { tmpl_pbs_signals(10, 271) }
 spriteset (signals_new_block_green,  "gfx/light-generic.png") { tmpl_pbs_signals(26, 271) }
 
+//Two-lamp signals for dist.signals, level crossing and simple/tmp signals
+spriteset (signals_twolamp_red,      "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 271) }
+spriteset (signals_twolamp_green,    "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 271) }
+spriteset (signals_twolamp_yellow,   "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 302) }
+spriteset (signals_twolamp_yelgreen, "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 302) }
+spriteset (signals_twolamp_white,    "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 332) }
+spriteset (signals_twolamp_violet,   "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 332) }
+
+//Two-lamp oneway signals
+spriteset (signals_twolamp_red_ow,      "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 363) }
+spriteset (signals_twolamp_green_ow,    "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 363) }
+spriteset (signals_twolamp_yellow_ow,   "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 394) }
+spriteset (signals_twolamp_yelgreen_ow, "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 394) }
+spriteset (signals_twolamp_white_ow,    "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 424) }
+spriteset (signals_twolamp_violet_ow,   "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 424) }
+
+
 spriteset (signals_new_block_y,      "gfx/light-generic.png") { tmpl_pbs_signals(10, 302) }
 spriteset (signals_new_block_yy,     "gfx/light-generic.png") { tmpl_pbs_signals(26, 302) }
 
@@ -308,31 +325,28 @@ switch(FEAT_SIGNALS, SELF, signal_switch_banner_block, [
     signals_block_banner_off;
 }
 
-switch(FEAT_SIGNALS, SELF, signal_switch_banner_pbs, [
+//Distant signals (was banner_pbs)
+switch(FEAT_SIGNALS, SELF, signal_switch_distant_pbs, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
         (extra_callback_info2 & 0x000000FF)
     ]) {
-    0: signals_pbs_banner_on;
-    2: signals_pbs_banner_on;
-    signals_pbs_banner_off;
+    0: signals_twolamp_yellow;   //This state when a train just passed the signal post
+    1: signals_twolamp_green;    //Path gets reserved to a green full speed signal
+    2: signals_twolamp_yellow;   //Path gets reserved to a red stop signal
+    3: signals_twolamp_yelgreen; //Path gets reserved to a green slow signal (first extra aspect)
+    signals_twolamp_green;       //Other cases, should not happen (load a 5-aspect signal grf)
 }
 
-switch(FEAT_SIGNALS, SELF, signal_switch_banner_pbs_oneway, [
+switch(FEAT_SIGNALS, SELF, signal_switch_distant_pbs_oneway, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
         (extra_callback_info2 & 0x000000FF)
     ]) {
 
-//ser ut som alt forskyves ett hakk. rødt hovedsignal => laveste grønn
-//en eller annen grønn på hoved, => ett hakk grønnere.
-    0: signals_combined_oneway_red_short;  //skjer aldri. 
-    1: signals_combined_oneway_green_short;    //som ventet, grønn foran enkel grønn
-//    param_aspect_style == 2 ? 3 : 2: signals_combined_oneway_red_short;  //Rødt foran rødt, forskjøvet i sekvensen
-//    param_aspect_style == 2 ? 2 : 3: signals_combined_oneway_y_short; //Foran første ekstra aspect, forskjøvet
-    2: signals_combined_oneway_red_short; //rødt forsignal
-    3: signals_combined_oneway_y_short; //single gul forsignal, før 1. aspect
-    4: signals_combined_oneway_yy_short; //dbl. gul, før 2. aspect
-
-    signals_combined_oneway_red_short; //vel, rødt et kort øyeblikk i det toget passerer signalet. Stemmer ikke egentlig for et forsignal, neste kan være hva som helst. Bedre enn alternativer - signalet skifter når toget passerer. Hovedsignalet vil uansett bli rødt når toget passerer der også, så da vil det stemme.
+    0: signals_twolamp_yellow_ow;   //This state when a train just passed the signal post
+    1: signals_twolamp_green_ow;    //Path gets reserved to a green full speed signal
+    2: signals_twolamp_yellow_ow;   //Path gets reserved to a red stop signal
+    3: signals_twolamp_yelgreen_ow; //Path gets reserved to a green slow signal (first extra aspect)
+    signals_twolamp_green_ow;       //Other cases, should not happen (load a 5-aspect signal grf)
 
 }
 
@@ -388,8 +402,8 @@ switch(FEAT_SIGNALS, SELF, switch_signals, (extra_callback_info2 & 0x00FFFF00) |
 //    0x70001: signal_switch_shunt_no_entry; //shunt no entry
 //    0x70002: signal_switch_shunt_no_entry; //shunt no entry (opposite)
         0x3: signal_switch_banner_block; //banner, block
-    0x40003: signal_switch_banner_pbs;   //banner, PBS
-    0x50003: signal_switch_banner_pbs_oneway; //banner, PBS oneway
+    0x40003: signal_switch_distant_pbs;   //banner, PBS
+    0x50003: signal_switch_distant_pbs_oneway; //banner, PBS oneway
     0x40004: signal_switch_combined_pbs;        //combined, PBS
     0x50004: signal_switch_combined_pbs_oneway; //combined, PBS oneway
     CB_FAILED;
@@ -423,7 +437,7 @@ item (FEAT_SIGNALS, custom_signals, 0) {
             style_opposite_side: 0x1;
 
             define_style: 3;
-            style_name: string(STR_STYLE_BANNER);
+            style_name: string(STR_STYLE_DIST);
             style_no_aspect_increase: 1;     //banner repeater uses this.
             style_always_reserve_through: 1; //Distant signal. Trains don't stop here.
             style_lookahead_extra_aspects: 2;//1 for banner repeater. <= extra_aspects
