@@ -329,6 +329,17 @@ switch(FEAT_SIGNALS, SELF, signal_switch_banner_block, [
 }
 */
 
+//Level crossing signals. Red or white, two-aspect
+//Note, no actual connection to any level crossing. But this is
+//what you see in Norway, so...
+switch(FEAT_SIGNALS, SELF, signal_switch_levelcross_pbs, [
+        STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
+        (extra_callback_info2 & 0x000000FF)
+    ]) {
+    0: signals_twolamp_red; //Level crossing closed for trains
+    signals_twolamp_white;  //Level crossing open for trains
+}
+
 //Distant signals
 switch(FEAT_SIGNALS, SELF, signal_switch_distant_pbs, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
@@ -341,6 +352,7 @@ switch(FEAT_SIGNALS, SELF, signal_switch_distant_pbs, [
     signals_twolamp_green;       //Other cases, should not happen (load a 5-aspect signal grf)
 }
 
+//Distant signals, one way
 switch(FEAT_SIGNALS, SELF, signal_switch_distant_pbs_oneway, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
         (extra_callback_info2 & 0x000000FF)
@@ -397,6 +409,14 @@ switch(FEAT_SIGNALS, SELF, signal_switch_combined_pbs_oneway, [
     0x1FF: signals_combined_oneway_shunt_short;
 }
 
+/*
+Current bugs:
+ 1. Errors in signal menu, block signals where there should be none
+ 2. white signal needs slightly darker side pixels to shine
+ 3. white signal should use the low slot, not the high one.
+*/
+
+//WHAT are the first-column numbers? !!! look it up !!!
 switch(FEAT_SIGNALS, SELF, switch_signals, (extra_callback_info2 & 0x00FFFF00) | signal_style) {
         0x0: signal_switch_block;        //light, block
     0x40000: signal_switch_pbs;          //light, PBS
@@ -406,10 +426,11 @@ switch(FEAT_SIGNALS, SELF, switch_signals, (extra_callback_info2 & 0x00FFFF00) |
 //    0x70001: signal_switch_shunt_no_entry; //shunt no entry
 //    0x70002: signal_switch_shunt_no_entry; //shunt no entry (opposite)
 //        0x3: signal_switch_banner_block; //banner, block
-    0x40003: signal_switch_distant_pbs;   //banner, PBS
-    0x50003: signal_switch_distant_pbs_oneway; //banner, PBS oneway
+    0x40003: signal_switch_distant_pbs;   //distant, PBS
+    0x50003: signal_switch_distant_pbs_oneway; //distant, PBS oneway
     0x40004: signal_switch_combined_pbs;        //combined, PBS
     0x50004: signal_switch_combined_pbs_oneway; //combined, PBS oneway
+    0x40005: signal_switch_levelcross_pbs;      //Plain PBS, meant for level crossings
     CB_FAILED;
 }
 
@@ -455,6 +476,12 @@ item (FEAT_SIGNALS, custom_signals, 0) {
             style_combined_normal_shunt: 1;
             style_electric_enabled: 0x30;
             style_realistic_braking_only: 1;
+
+            define_style: 5;
+            style_name: string(STR_STYLE_LEVELCROSS);
+            style_lookahead_extra_aspects: 0; //No extra aspects here, level crossings are slow
+            style_electric_enabled: 0x31; //!!! look this up !!!
+
         }
     }
 //}
