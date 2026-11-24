@@ -426,15 +426,44 @@ item (FEAT_SIGNALS, custom_signals, 0) {
             style_name: string(STR_STYLE_BANNER);
             style_no_aspect_increase: 1;     //banner repeater uses this.
             style_always_reserve_through: 1; //Distant signal. Trains don't stop here.
-            style_lookahead_extra_aspects: 1;//1 for banner repeater. <= extra_aspects
+            style_lookahead_extra_aspects: 2;//1 for banner repeater. <= extra_aspects
+            //2 above, the point of distant signals is to unlock an extra aspect
             style_electric_enabled: 0x31;
             style_realistic_braking_only: 1;
 
             define_style: 4;
             style_name: string(STR_STYLE_COMBINED);
+            style_lookahead_extra_aspects: 1; //See only 1 extra aspect (3-aspect signaling)
             style_combined_normal_shunt: 1;
             style_electric_enabled: 0x30;
             style_realistic_braking_only: 1;
         }
     }
 //}
+
+/*
+Explanations
+
+extra_aspects                  
+How many extra aspects (in addition to "stop" and "full speed") there are. Affects all signals in the game.  Is 2 here, for a maximum of 4-aspect signalling
+Signals with fewer aspects display "full speed" for any excess aspect 
+
+style_lookahead_extra_aspects  
+Limit extra aspects available for specific signal types having less than 4 aspects
+Limits what the train driver "sees", not what the game displays.  
+
+Here: 1 for shunt, for they have 3 aspects [..]    [.·]    [: ] 
+      1 for normal signals. 3 aspects (red/stop, single green/slow, dbl green/fullspeed)
+      2 for distant signals, unlocking the fourth aspect that is "hidden" 
+      unspecified (== extra_aspects == 2) for the 4-aspect signals
+      0 for simple red/green or red/white 2-aspect signals      
+
+style_no_aspect_increase
+A series of such signals do not increase the aspect from one to the next. Which is how distant signals work – repeating without affecting the state of other signals. 
+
+style_always_reserve_through
+Trains will always reserve through, and never stop here. Necessary for distant signals.
+
+style_lookahead_single_signal_only
+Like style_lookahead_extra_aspects=0, AND lookahead stops at the next signal. Unclear what the last bit does. The train driver can only see "stop" or "full speed". Seems to have little effect when shunt signals don't have style_no_aspect_increase set?
+*/
