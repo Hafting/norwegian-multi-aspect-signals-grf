@@ -160,17 +160,17 @@ spriteset (signals_block_green, "gfx/light-generic.png") { tmpl_signals(40, 50) 
 spriteset (signals_block_y,     "gfx/light-generic.png") { tmpl_signals(10, 100) }
 spriteset (signals_block_yy,    "gfx/light-generic.png") { tmpl_signals(40, 100) }
 
-spriteset (signals_pbs_red,     "gfx/light-generic.png") { tmpl_pbs_signals(10, 147) }
-spriteset (signals_pbs_green,   "gfx/light-generic.png") { tmpl_pbs_signals(26, 147) }
+spriteset (signals_pbs_red,     "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 147) }
+spriteset (signals_pbs_green,   "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 147) }
 
-spriteset (signals_pbs_oneway_red,   "gfx/light-generic.png") { tmpl_pbs_signals(10, 178) }
-spriteset (signals_pbs_oneway_green, "gfx/light-generic.png") { tmpl_pbs_signals(26, 178) }
+spriteset (signals_pbs_oneway_red,   "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 178) }
+spriteset (signals_pbs_oneway_green, "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 178) }
 
-spriteset (signals_pbs_y,            "gfx/light-generic.png") { tmpl_pbs_signals(10, 209) }
-spriteset (signals_pbs_yy,           "gfx/light-generic.png") { tmpl_pbs_signals(26, 209) }
+spriteset (signals_pbs_y,            "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 209) }
+spriteset (signals_pbs_yy,           "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 209) }
 
-spriteset (signals_pbs_oneway_y,     "gfx/light-generic.png") { tmpl_pbs_signals(10, 240) }
-spriteset (signals_pbs_oneway_yy,    "gfx/light-generic.png") { tmpl_pbs_signals(26, 240) }
+spriteset (signals_pbs_oneway_y,     "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 240) }
+spriteset (signals_pbs_oneway_yy,    "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 240) }
 
 spriteset (signals_new_block_red,    "gfx/light-generic.png") { tmpl_pbs_signals(10, 271) }
 spriteset (signals_new_block_green,  "gfx/light-generic.png") { tmpl_pbs_signals(26, 271) }
