@@ -28,5 +28,5 @@ STR_STYLE_SHUNT_OPPOSITE                    :Shunt (opposite side)
 STR_STYLE_DIST                              :Distant signal
 STR_STYLE_LEVELCROSS                            :Level crossing signal
 STR_STYLE_DIST_LCROSS                       :Distant level crossing signal
-STR_STYLE_TMP                               :Simple/temporary signal
+STR_STYLE_TMP                               :Simplified/temporary signal
 STR_STYLE_COMBINED                          :Combined normal/shunt

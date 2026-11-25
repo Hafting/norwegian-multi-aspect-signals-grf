@@ -4,15 +4,15 @@
 This GRF includes railway signals used by Norwegian railway:
 * 3-aspect main signal graphics (red, single green, double green) for path and one-way path signal types.
 * 3-aspect dwarf signals for shunting   [..]    [.·]    [: ]
-* Planned: 3-aspect distant signals, for use with 3-aspect main signals (yellow, green+yellow, green)
+* 3-aspect distant signals, for use with 3-aspect main signals (yellow, green+yellow, green)
 * Planned: 4 aspect signal graphics consisting of a main 3-aspect signal plus a distant signal on the same mast 
-* Planned: combined main and dwarf signal
-* Planned: 2-aspect signals (red, white) and distant signals (violet+white) for level crossings
-* Planned: 2-aspect simplified/temporary signal (red, green).   
+* combined main and dwarf signal
+* 2-aspect signals (red, white) and distant signals (violet+white) for level crossings
+* 2-aspect simplified/temporary signal (red, green).   
 
 ### Use cases
 
-* 3- and 4-aspect signals adds some realism, and affect how trains move
+* 3- and 4-aspect signals adds some realism, and makes busy lines more effective
 * Distant signals allows a realistic look, but don't affect what happens in the game. Trains don't stop at distant signals, they inform on the state of the next main signal.
 * 2-aspect signals works just like standard game path-based signals. They are provided for looks.
 

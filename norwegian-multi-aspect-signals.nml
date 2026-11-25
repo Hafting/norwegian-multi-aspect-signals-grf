@@ -329,6 +329,28 @@ switch(FEAT_SIGNALS, SELF, signal_switch_banner_block, [
 }
 */
 
+/* Simplified or temporary signals
+   Simplified, for that coal line with only two trains on it
+   Temporary, for work on the railroad.
+   Just red and green
+*/
+switch(FEAT_SIGNALS, SELF, signal_switch_tmp_pbs, [
+        STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
+        (extra_callback_info2 & 0x000000FF)
+    ]) {
+    0: signals_twolamp_red; //STOP
+    signals_twolamp_green; //GO
+}
+
+switch(FEAT_SIGNALS, SELF, signal_switch_tmp_pbs_oneway, [
+        STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
+        (extra_callback_info2 & 0x000000FF)
+    ]) {
+     0: signals_twolamp_red_ow; //STOP
+    signals_twolamp_green_ow; //GO 
+}
+
+
 //Level crossing signals. Red or white, two-aspect
 //Note, no actual connection to any level crossing. But this is
 //what you see in Norway, so...
@@ -510,6 +532,8 @@ switch(FEAT_SIGNALS, SELF, switch_signals, (extra_callback_info2 & 0x00FFFF00) |
     0x50005: signal_switch_levelcross_pbs_oneway;
     0x40006: signal_switch_dist_levelcross_pbs; //Distant signal, informing on the l.c. signal
     0x50006: signal_switch_dist_levelcross_pbs_oneway;
+    0x40007: signal_switch_tmp_pbs;             //Simplified/temporary signal
+    0x50007: signal_switch_tmp_pbs_oneway;
     CB_FAILED;
 }
 
@@ -527,7 +551,22 @@ item (FEAT_SIGNALS, custom_signals, 0) {
 
 //if (param_custom_styles) {
     item (FEAT_SIGNALS, custom_signals, 0) {
+        //The signal menu gets the same order as the definitions here.
         property {
+            define_style: 3;
+            style_name: string(STR_STYLE_DIST); //Distant signal
+            style_no_aspect_increase: 1;        //This signal merely repeats the next one
+            style_always_reserve_through: 1;    //Distant. Trains stop at main signal, not here
+            style_lookahead_extra_aspects: 2;   //  <= extra_aspects. Get more info here
+            //2 above, the point of distant signals is to unlock an extra aspect
+            style_electric_enabled: 0x30;       //PBS, one and two way
+            style_realistic_braking_only: 1;    //Needed for multi-aspect operation
+            //Simplified/temporary signals
+            //Just red/green, no fancy aspects
+            define_style: 7;
+            style_name: string(STR_STYLE_TMP);
+            style_electric_enabled: 0x30;
+            style_lookahead_extra_aspects: 0; //Simple...
             define_style: 1;  //total 15 styles in the game
             style_name: string(STR_STYLE_SHUNT);
             style_electric_enabled: 0x90;
@@ -539,15 +578,6 @@ item (FEAT_SIGNALS, custom_signals, 0) {
             //style_no_aspect_increase: 1; //stops at 2 aspects
             style_lookahead_single_signal_only: 1;
             style_opposite_side: 0x1;
-
-            define_style: 3;
-            style_name: string(STR_STYLE_DIST); //Distant signal
-            style_no_aspect_increase: 1;        //This signal merely repeats the next one
-            style_always_reserve_through: 1;    //Distant. Trains stop at main signal, not here
-            style_lookahead_extra_aspects: 2;   //  <= extra_aspects. Get more info here
-            //2 above, the point of distant signals is to unlock an extra aspect
-            style_electric_enabled: 0x30;       //PBS, one and two way
-            style_realistic_braking_only: 1;    //Needed for multi-aspect operation
 
             define_style: 4;
             style_name: string(STR_STYLE_COMBINED);
