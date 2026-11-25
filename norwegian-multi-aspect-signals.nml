@@ -340,7 +340,80 @@ switch(FEAT_SIGNALS, SELF, signal_switch_levelcross_pbs, [
     signals_twolamp_white;  //Level crossing open for trains
 }
 
-//Distant signals
+switch(FEAT_SIGNALS, SELF, signal_switch_levelcross_pbs_oneway, [
+        STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
+        (extra_callback_info2 & 0x000000FF)
+    ]) {
+    0: signals_twolamp_red_ow; //Level crossing closed for trains
+    signals_twolamp_white_ow;  //Level crossing open for trains
+}
+
+//Distant level crossing signals
+//Put one in front of a level crossing signal, with no railway intersections
+//or other signals between.
+//violet: informs that the next level crossing signal is red
+//white: informs that the next leve crossing signal is white
+//One may put them anywhere, but they are meant for warning about the crossing
+switch(FEAT_SIGNALS, SELF, signal_switch_dist_levelcross_pbs, [
+        STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
+        (extra_callback_info2 & 0x000000FF)
+    ]) {
+
+    0..2: signals_twolamp_violet; //Level crossing closed for trains
+    signals_twolamp_white;  //Level crossing open for trains
+
+
+/*  TEST SETUP and oddball results. Distant signals are tricky.
+    0: signals_twolamp_violet_ow; //starts here, in front of red signal. Here again, train got to the signal post.
+    1: signals_twolamp_yellow;    //not happening
+    2: signals_twolamp_red;       //fast train reserves through this signal, but not the main one I.e. the main remains red.
+    3: signals_twolamp_yelgreen;  //train reserved through the main signal, main signal got white
+    signals_twolamp_white_ow;     //not happening
+*/
+}
+/* TEST RESULTS, different from oneway:
+0: main signal is STOP, or the locomotive just went past this signal
+1: don't happen
+2: train RESERVED through this signal, but not the main signal which must therefore be STOP
+   Two way signals are STOP when nobody is trying, especially in front of a crossing.
+3: train RESERVED through main signal, setting it to GO. 
+
+Conclusion: 0..2: Show stop. Otherwise, show GO
+
+*/
+
+switch(FEAT_SIGNALS, SELF, signal_switch_dist_levelcross_pbs_oneway, [
+        STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
+        (extra_callback_info2 & 0x000000FF)
+    ]) {
+
+/*  TEST SETUP AND RESULTS. Distant signals are tricky. Also, twoway is different.
+    0: signals_twolamp_violet_ow; //State when a locomotive just passed the signal. Unavoidable
+    1: signals_twolamp_yellow; //don't happen
+    2: signals_twolamp_red;       //initial state, in front of a red lvl signal. Goes here after the train passes the main signal
+    3: signals_twolamp_yelgreen;  //in front of white lvl signal, train allocated a path
+    signals_twolamp_white_ow;  //don't happen
+*/
+    0..2: signals_twolamp_violet_ow; //Train just passed, this signal or the main one.
+    signals_twolamp_white_ow;    //In front of a white(GO) main signal
+}
+
+/*
+  Distant signals. For informing trains about the next main signal.
+  Put it in front of a main signal, with no rail intersections between.
+
+  Failure modes:
+  1. Distant signals are reset to state 0 as the locomotive pass them. 
+     Wrong, so best effort is to set them the way they should look when the
+     locomotive also passes the main signal (setting it to STOP). 
+     The duration of error is short,   
+     and no train will come here because the track is occupied by THIS train.
+  2. Distant signals are updated mostly when a train has a reservation through them.
+     With a long distance between the distant signal and the main signal, the main
+     may go through several aspects after the train passed the distant signal. The 
+     distant signal gets no updates. Still, the best-effort fix for (1) helps here too. 
+*/
+
 switch(FEAT_SIGNALS, SELF, signal_switch_distant_pbs, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
         (extra_callback_info2 & 0x000000FF)
@@ -411,12 +484,15 @@ switch(FEAT_SIGNALS, SELF, signal_switch_combined_pbs_oneway, [
 
 /*
 Current bugs:
- 1. Errors in signal menu, block signals where there should be none
- 2. white signal needs slightly darker side pixels to shine
- 3. white signal should use the low slot, not the high one.
+level crossing distant oneway signal has a wrong sequence.
 */
 
 //WHAT are the first-column numbers? !!! look it up !!!
+//First column number breakdown
+//The last hex digit matches the custom style number, deciding which menu the signal appears on
+//Style 0 apparently replaces the stock signals in openttd
+//Other digits must make the number unique, or nmlc complains. 
+//extra_callback_info2: RRTTVVSS, (RR reserved), masking picks the TTVV part.
 switch(FEAT_SIGNALS, SELF, switch_signals, (extra_callback_info2 & 0x00FFFF00) | signal_style) {
         0x0: signal_switch_block;        //light, block
     0x40000: signal_switch_pbs;          //light, PBS
@@ -431,6 +507,9 @@ switch(FEAT_SIGNALS, SELF, switch_signals, (extra_callback_info2 & 0x00FFFF00) |
     0x40004: signal_switch_combined_pbs;        //combined, PBS
     0x50004: signal_switch_combined_pbs_oneway; //combined, PBS oneway
     0x40005: signal_switch_levelcross_pbs;      //Plain PBS, meant for level crossings
+    0x50005: signal_switch_levelcross_pbs_oneway;
+    0x40006: signal_switch_dist_levelcross_pbs; //Distant signal, informing on the l.c. signal
+    0x50006: signal_switch_dist_levelcross_pbs_oneway;
     CB_FAILED;
 }
 
@@ -480,6 +559,13 @@ item (FEAT_SIGNALS, custom_signals, 0) {
             define_style: 5;
             style_name: string(STR_STYLE_LEVELCROSS);
             style_lookahead_extra_aspects: 0; //No extra aspects here, level crossings are slow
+            style_electric_enabled: 0x30; //PBS, one and two way
+
+            define_style: 6;
+            style_name: string(STR_STYLE_DIST_LCROSS);
+            style_no_aspect_increase: 1;        //This signal merely repeats the next one
+            style_always_reserve_through: 1;    //Distant. Trains stop at main signal, not here
+            style_lookahead_extra_aspects: 1;   //Distant signal help a little
             style_electric_enabled: 0x30; //PBS, one and two way
 
         }
