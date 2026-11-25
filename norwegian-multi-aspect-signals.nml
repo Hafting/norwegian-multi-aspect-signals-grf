@@ -462,25 +462,25 @@ item (FEAT_SIGNALS, custom_signals, 0) {
             style_opposite_side: 0x1;
 
             define_style: 3;
-            style_name: string(STR_STYLE_DIST);
-            style_no_aspect_increase: 1;     //banner repeater uses this.
-            style_always_reserve_through: 1; //Distant signal. Trains don't stop here.
-            style_lookahead_extra_aspects: 2;//1 for banner repeater. <= extra_aspects
+            style_name: string(STR_STYLE_DIST); //Distant signal
+            style_no_aspect_increase: 1;        //This signal merely repeats the next one
+            style_always_reserve_through: 1;    //Distant. Trains stop at main signal, not here
+            style_lookahead_extra_aspects: 2;   //  <= extra_aspects. Get more info here
             //2 above, the point of distant signals is to unlock an extra aspect
-            style_electric_enabled: 0x31;
-            style_realistic_braking_only: 1;
+            style_electric_enabled: 0x30;       //PBS, one and two way
+            style_realistic_braking_only: 1;    //Needed for multi-aspect operation
 
             define_style: 4;
             style_name: string(STR_STYLE_COMBINED);
             style_lookahead_extra_aspects: 1; //See only 1 extra aspect (3-aspect signaling)
             style_combined_normal_shunt: 1;
-            style_electric_enabled: 0x30;
+            style_electric_enabled: 0x30; //PBS, one and two way
             style_realistic_braking_only: 1;
 
             define_style: 5;
             style_name: string(STR_STYLE_LEVELCROSS);
             style_lookahead_extra_aspects: 0; //No extra aspects here, level crossings are slow
-            style_electric_enabled: 0x31; //!!! look this up !!!
+            style_electric_enabled: 0x30; //PBS, one and two way
 
         }
     }
