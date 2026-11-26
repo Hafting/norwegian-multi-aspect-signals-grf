@@ -158,9 +158,9 @@ template tmpl_pbs_signals(x,y) {
 //left_x, upper_y, width, height, offset_x, offset_y
 template tmpl_pbs4_signals(x,y) {
     [x +   0, y, 5, 25, -2, -23] // ne-sw
-    [x +  32, y, 4, 25, -1, -23] // sw-ne
-    [x +  64, y, 4, 25, -1, -23] // se-nw
-    [x +  96, y, 5, 25, -1, -23] // nw-se
+    [x +  31, y, 5, 25, -1, -23] // sw-ne
+    [x +  62, y, 6, 25, -1, -23] // se-nw
+    [x +  96, y, 6, 25, -1, -23] // nw-se
     [x + 128, y, 5, 25, -1, -23] // e-w
     [x + 160, y, 5, 25, -2, -23] // w-e
     [x + 191, y, 6, 25, -3, -23] // s-n
@@ -190,17 +190,17 @@ spriteset (signals_new_block_red,    "gfx/light-generic.png") { tmpl_pbs_signals
 spriteset (signals_new_block_green,  "gfx/light-generic.png") { tmpl_pbs_signals(26, 271) }
 
 //4-aspect signals, combining a main signal and a distant signal on the same pole
-spriteset (signals_pbs4_red,     "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 455) }
-spriteset (signals_pbs4_green,   "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 455) }
+spriteset (signals_pbs4_red,     "gfx/light-norwegian.png") { tmpl_pbs4_signals(10, 455) }
+spriteset (signals_pbs4_green,   "gfx/light-norwegian.png") { tmpl_pbs4_signals(26, 455) }
 
-spriteset (signals_pbs4_oneway_red,   "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 486) }
-spriteset (signals_pbs4_oneway_green, "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 486) }
+spriteset (signals_pbs4_oneway_red,   "gfx/light-norwegian.png") { tmpl_pbs4_signals(10, 486) }
+spriteset (signals_pbs4_oneway_green, "gfx/light-norwegian.png") { tmpl_pbs4_signals(26, 486) }
 
-spriteset (signals_pbs4_y,            "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 517) }
-spriteset (signals_pbs4_yy,           "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 517) }
+spriteset (signals_pbs4_y,            "gfx/light-norwegian.png") { tmpl_pbs4_signals(10, 517) }
+spriteset (signals_pbs4_yy,           "gfx/light-norwegian.png") { tmpl_pbs4_signals(26, 517) }
 
-spriteset (signals_pbs4_oneway_y,     "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 548) }
-spriteset (signals_pbs4_oneway_yy,    "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 548) }
+spriteset (signals_pbs4_oneway_y,     "gfx/light-norwegian.png") { tmpl_pbs4_signals(10, 548) }
+spriteset (signals_pbs4_oneway_yy,    "gfx/light-norwegian.png") { tmpl_pbs4_signals(26, 548) }
 
 
 //Two-lamp signals for dist.signals, level crossing and simple/tmp signals
