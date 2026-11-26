@@ -160,11 +160,11 @@ template tmpl_pbs4_signals(x,y) {
     [x +   0, y, 5, 25, -2, -23] // ne-sw
     [x +  31, y, 5, 25, -1, -23] // sw-ne
     [x +  62, y, 6, 25, -1, -23] // se-nw
-    [x +  96, y, 6, 25, -1, -23] // nw-se
-    [x + 128, y, 5, 25, -1, -23] // e-w
-    [x + 160, y, 5, 25, -2, -23] // w-e
-    [x + 191, y, 6, 25, -3, -23] // s-n
-    [x + 223, y, 6, 25, -3, -23] // n-s
+    [x +  95, y, 7, 25, -1, -23] // nw-se 
+    [x + 127, y, 6, 25, -1, -23] // e-w   
+    [x + 160, y, 6, 25, -2, -23] // w-e   
+    [x + 190, y, 7, 25, -3, -23] // s-n   
+    [x + 223, y, 7, 25, -3, -23] // n-s   
 }
 
 
@@ -232,15 +232,6 @@ spriteset (signals_pbs_oneway_yy_short,    "gfx/light-generic.png") { tmpl_pbs_s
 spriteset (signals_shunt_stop,   "gfx/shunt.png") { tmpl_signals(10, 50) }
 spriteset (signals_shunt_go,     "gfx/shunt.png") { tmpl_signals(40, 50) }
 spriteset (signals_shunt_slow,   "gfx/shunt.png") { tmpl_signals(10, 100) }
-
-/*
-spriteset (signals_block_banner_on,       "gfx/banner.png") { tmpl_signals(10,  50) }
-spriteset (signals_block_banner_off,      "gfx/banner.png") { tmpl_signals(40,  50) }
-spriteset (signals_pbs_banner_on,         "gfx/banner.png") { tmpl_signals(10, 100) }
-spriteset (signals_pbs_banner_off,        "gfx/banner.png") { tmpl_signals(40, 100) }
-spriteset (signals_pbs_oneway_banner_on,  "gfx/banner.png") { tmpl_signals(10, 150) }
-spriteset (signals_pbs_oneway_banner_off, "gfx/banner.png") { tmpl_signals(40, 150) }
-*/
 
 spriteset (signals_combined_red,   "gfx/light-combined.png") { tmpl_signals_combined(10, 50) }
 spriteset (signals_combined_green, "gfx/light-combined.png") { tmpl_signals_combined(40, 50) }
@@ -333,10 +324,10 @@ switch(FEAT_SIGNALS, SELF, signal_switch_pbs4_oneway, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
         (extra_callback_info2 & 0x000000FF) | (signal_vertical_clearance < param[11] ? 0x100 : 0)
     ]) {
-    0: signals_pbs4_red; //signals_pbs4_oneway_red; //oneway removed temp for development
-    1: signals_pbs4_green;
-    2: signals_pbs4_y;
-    3: signals_pbs4_yy;
+    0: signals_pbs4_oneway_red; //signals_pbs4_oneway_red; //oneway removed temp for development
+    1: signals_pbs4_oneway_green;
+    2: signals_pbs4_oneway_y;
+    3: signals_pbs4_oneway_yy;
 
  //!!! replace these with main signals instead, after bridge testing
     0x100: signals_pbs_oneway_red_short;
