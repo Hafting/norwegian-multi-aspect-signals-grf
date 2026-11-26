@@ -143,6 +143,7 @@ template tmpl_signals_combined(x, y) {
     [x + 420, y, 20, 30, -10, -29] // n-s
 }
 
+
 template tmpl_pbs_signals(x,y) {
     [x +   0, y, 5, 25, -2, -23] // ne-sw
     [x +  32, y, 4, 25, -1, -23] // sw-ne
@@ -153,6 +154,19 @@ template tmpl_pbs_signals(x,y) {
     [x + 191, y, 6, 25, -3, -23] // s-n
     [x + 223, y, 6, 25, -3, -23] // n-s
 }
+
+//left_x, upper_y, width, height, offset_x, offset_y
+template tmpl_pbs4_signals(x,y) {
+    [x +   0, y, 5, 25, -2, -23] // ne-sw
+    [x +  32, y, 4, 25, -1, -23] // sw-ne
+    [x +  64, y, 4, 25, -1, -23] // se-nw
+    [x +  96, y, 5, 25, -1, -23] // nw-se
+    [x + 128, y, 5, 25, -1, -23] // e-w
+    [x + 160, y, 5, 25, -2, -23] // w-e
+    [x + 191, y, 6, 25, -3, -23] // s-n
+    [x + 223, y, 6, 25, -3, -23] // n-s
+}
+
 
 spriteset (signals_block_red,   "gfx/light-generic.png") { tmpl_signals(10, 50) }
 spriteset (signals_block_green, "gfx/light-generic.png") { tmpl_signals(40, 50) }
@@ -174,6 +188,20 @@ spriteset (signals_pbs_oneway_yy,    "gfx/light-norwegian.png") { tmpl_pbs_signa
 
 spriteset (signals_new_block_red,    "gfx/light-generic.png") { tmpl_pbs_signals(10, 271) }
 spriteset (signals_new_block_green,  "gfx/light-generic.png") { tmpl_pbs_signals(26, 271) }
+
+//4-aspect signals, combining a main signal and a distant signal on the same pole
+spriteset (signals_pbs4_red,     "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 455) }
+spriteset (signals_pbs4_green,   "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 455) }
+
+spriteset (signals_pbs4_oneway_red,   "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 486) }
+spriteset (signals_pbs4_oneway_green, "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 486) }
+
+spriteset (signals_pbs4_y,            "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 517) }
+spriteset (signals_pbs4_yy,           "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 517) }
+
+spriteset (signals_pbs4_oneway_y,     "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 548) }
+spriteset (signals_pbs4_oneway_yy,    "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 548) }
+
 
 //Two-lamp signals for dist.signals, level crossing and simple/tmp signals
 spriteset (signals_twolamp_red,      "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 271) }
@@ -264,6 +292,7 @@ switch (FEAT_SIGNALS, SELF, signal_switch_block, param_block_style) {
     1: signal_switch_block_new;
 }
 
+//Main signals. 3-aspect, two way
 switch(FEAT_SIGNALS, SELF, signal_switch_pbs_std, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
         (extra_callback_info2 & 0x000000FF)
@@ -275,11 +304,14 @@ switch(FEAT_SIGNALS, SELF, signal_switch_pbs_std, [
     signals_pbs_green;
 }
 
+
+
 switch(FEAT_SIGNALS, SELF, signal_switch_pbs, signal_vertical_clearance < param[11]) {
     default: signal_switch_pbs_std;
     1: signal_switch_block_new;
 }
 
+//Main signals, 3 aspect
 switch(FEAT_SIGNALS, SELF, signal_switch_pbs_oneway, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
         (extra_callback_info2 & 0x000000FF) | (signal_vertical_clearance < param[11] ? 0x100 : 0)
@@ -295,6 +327,38 @@ switch(FEAT_SIGNALS, SELF, signal_switch_pbs_oneway, [
 //    0x103: signals_pbs_oneway_yy_short;
     signals_pbs_oneway_green; //default, catches unused higher aspects
 }
+
+//Main signals, 4 aspect
+switch(FEAT_SIGNALS, SELF, signal_switch_pbs4_oneway, [
+        STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
+        (extra_callback_info2 & 0x000000FF) | (signal_vertical_clearance < param[11] ? 0x100 : 0)
+    ]) {
+    0: signals_pbs4_red; //signals_pbs4_oneway_red; //oneway removed temp for development
+    1: signals_pbs4_green;
+    2: signals_pbs4_y;
+    3: signals_pbs4_yy;
+
+ //!!! replace these with main signals instead, after bridge testing
+    0x100: signals_pbs_oneway_red_short;
+    0x101: signals_pbs_oneway_green_short;
+    0x102: signals_pbs_oneway_y_short;
+    0x103: signals_pbs_oneway_yy_short;
+    signals_pbs4_oneway_green; //default, catches unused higher aspects
+}
+
+switch(FEAT_SIGNALS, SELF, signal_switch_pbs4, [
+        STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
+        (extra_callback_info2 & 0x000000FF)
+    ]) {
+    0: signals_pbs4_red;
+    1: signals_pbs4_green;
+    2: signals_pbs4_y;
+    3: signals_pbs4_yy;
+    signals_pbs4_green;
+}
+
+
+
 
 //Shunt signals, 3 aspects.  
 //stop ..  
@@ -504,11 +568,6 @@ switch(FEAT_SIGNALS, SELF, signal_switch_combined_pbs_oneway, [
     0x1FF: signals_combined_oneway_shunt_short;
 }
 
-/*
-Current bugs:
-level crossing distant oneway signal has a wrong sequence.
-*/
-
 //WHAT are the first-column numbers? !!! look it up !!!
 //First column number breakdown
 //The last hex digit matches the custom style number, deciding which menu the signal appears on
@@ -517,8 +576,10 @@ level crossing distant oneway signal has a wrong sequence.
 //extra_callback_info2: RRTTVVSS, (RR reserved), masking picks the TTVV part.
 switch(FEAT_SIGNALS, SELF, switch_signals, (extra_callback_info2 & 0x00FFFF00) | signal_style) {
         0x0: signal_switch_block;        //light, block
-    0x40000: signal_switch_pbs;          //light, PBS
-    0x50000: signal_switch_pbs_oneway;   //light, PBS oneway
+    0x40000: signal_switch_pbs4;
+    0x50000: signal_switch_pbs4_oneway;
+    0x40008: signal_switch_pbs;          //light, PBS
+    0x50008: signal_switch_pbs_oneway;   //light, PBS oneway
     0x40001: signal_switch_shunt;        //shunt
     0x40002: signal_switch_shunt;        //shunt (opposite)
 //    0x70001: signal_switch_shunt_no_entry; //shunt no entry
@@ -553,6 +614,10 @@ item (FEAT_SIGNALS, custom_signals, 0) {
     item (FEAT_SIGNALS, custom_signals, 0) {
         //The signal menu gets the same order as the definitions here.
         property {
+            define_style: 8;
+            style_name: string(STR_STYLE_MAIN); //Main signals
+            style_electric_enabled: 0x30;       //PBS, one and two way
+            style_realistic_braking_only: 1;
             define_style: 3;
             style_name: string(STR_STYLE_DIST); //Distant signal
             style_no_aspect_increase: 1;        //This signal merely repeats the next one

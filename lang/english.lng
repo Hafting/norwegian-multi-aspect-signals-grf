@@ -30,3 +30,5 @@ STR_STYLE_LEVELCROSS                            :Level crossing signal
 STR_STYLE_DIST_LCROSS                       :Distant level crossing signal
 STR_STYLE_TMP                               :Simplified/temporary signal
 STR_STYLE_COMBINED                          :Combined normal/shunt
+STR_STYLE_MAIN                              :Main signals
+
