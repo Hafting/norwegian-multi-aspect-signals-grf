@@ -5,8 +5,8 @@ This GRF includes railway signals used by Norwegian railway:
 * 3-aspect main signal graphics (red, single green, double green) for path and one-way path signal types.
 * 3-aspect dwarf signals for shunting   [..]    [.·]    [: ]
 * 3-aspect distant signals, for use with 3-aspect main signals (yellow, green+yellow, green)
-* Planned: 4 aspect signal graphics consisting of a main 3-aspect signal plus a distant signal on the same mast 
-* combined main and dwarf signal
+* 4-aspect signal graphics consisting of a main 3-aspect signal plus a distant signal on the same mast 
+* Combined main and dwarf signal
 * 2-aspect signals (red, white) and distant signals (violet+white) for level crossings
 * 2-aspect simplified/temporary signal (red, green).   
 
