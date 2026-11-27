@@ -16,6 +16,17 @@ This GRF includes railway signals used by Norwegian railway:
 * Distant signals allows a realistic look, but don't affect what happens in the game. Trains don't stop at distant signals, they inform on the state of the next main signal.
 * 2-aspect signals works just like standard game path-based signals. They are provided for looks.
 
+### Details of use
+#### Game setup
+* Use openttd-jgrpp, which supports multi-aspect signals
+* Open the game settings, enable advanced/expert settings
+* Under Vehicle→Physics:
+* Set Train acceleration mode to Realistic
+* Set Train braking model to Realistic
+* Set Realistic train brakng is aspect limited to On
+* Set Limit train acceleration to On
+
+
 ### Requirements
 * This GRF requires a non-standard version of OpenTTD which supports the signal graphics and multi-aspect features such as [JGR's patchpack](https://github.com/JGRennison/OpenTTD-patches) v0.43.0 or later.
 * Realistic braking must be enabled for multi-aspect signalling to be enabled.

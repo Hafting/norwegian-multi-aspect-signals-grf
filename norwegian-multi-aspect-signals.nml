@@ -364,25 +364,7 @@ switch(FEAT_SIGNALS, SELF, signal_switch_shunt, [
     signals_shunt_go;
 }
 
-/*
-switch(FEAT_SIGNALS, SELF, signal_switch_shunt_no_entry, [
-        STORE_TEMP(hasbit(extra_callback_info2, 24) ? param[10] : 0, 0x100),
-        (extra_callback_info2 & 0x000000FF)
-    ]) {
-    signals_shunt_no_entry;
-}
-*/
 
-/*
-switch(FEAT_SIGNALS, SELF, signal_switch_banner_block, [
-        STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
-        (extra_callback_info2 & 0x000000FF)
-    ]) {
-    0: signals_block_banner_on;
-    2: signals_block_banner_on;
-    signals_block_banner_off;
-}
-*/
 
 /* Simplified or temporary signals
    Simplified, for that coal line with only two trains on it
@@ -484,7 +466,7 @@ switch(FEAT_SIGNALS, SELF, signal_switch_dist_levelcross_pbs_oneway, [
      Wrong, so best effort is to set them the way they should look when the
      locomotive also passes the main signal (setting it to STOP). 
      The duration of error is short,   
-     and no train will come here because the track is occupied by THIS train.
+     and no train will come here and see, because the track is occupied by THIS train.
   2. Distant signals are updated mostly when a train has a reservation through them.
      With a long distance between the distant signal and the main signal, the main
      may go through several aspects after the train passed the distant signal. The 
@@ -626,12 +608,15 @@ item (FEAT_SIGNALS, custom_signals, 0) {
             define_style: 1;  //total 15 styles in the game
             style_name: string(STR_STYLE_SHUNT);
             style_electric_enabled: 0x90;
-            style_lookahead_single_signal_only: 1; //for shunt, but why?
+            style_lookahead_extra_aspects: 0;
+            style_lookahead_single_signal_only: 1; //Without this, the combo signal fail to display shunt aspect
+            style_no_aspect_increase: 1; //Main signals should not increase aspect because of a lowly shunt signal
 
             define_style: 2;
             style_name: string(STR_STYLE_SHUNT_OPPOSITE);
+            style_lookahead_extra_aspects: 0;
             style_electric_enabled: 0x90; //1:NORM 2:ENTRY 4:EXIT 8:COMBO 10:PBS 20:PBS_ONEWAY 40:PROG 80:NO_ENTRY
-            //style_no_aspect_increase: 1; //stops at 2 aspects
+            style_no_aspect_increase: 1; //stops at 2 aspects
             style_lookahead_single_signal_only: 1;
             style_opposite_side: 0x1;
 
