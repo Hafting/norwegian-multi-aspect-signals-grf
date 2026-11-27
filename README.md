@@ -1,4 +1,5 @@
 # Norwegian Multi-Aspect Signals NewGRF
+![Sample image](img/norwegiansignals.png)
 
 ### Features and planned features
 This GRF includes railway signals used by Norwegian railway:
@@ -27,8 +28,8 @@ This GRF includes railway signals used by Norwegian railway:
 * Open the game settings, enable advanced/expert settings
 * Under Vehicle→Physics:
 * Set Train acceleration mode to Realistic
-* Set Train braking model to Realistic
-* Set Realistic train brakng is aspect limited to On
+* Set Train braking model to Realistic. You can't use multi-aspect signals without this one.
+* Set Realistic train braking is aspect limited to On
 * Set Limit train acceleration to On
 * Optionally set the weight multiplier for freight.  That may make proper signalling more important. 
 
@@ -42,6 +43,7 @@ This GRF includes railway signals used by Norwegian railway:
 * Shunting dwarf signals.  These sits low, and have 4 white lights.  Three light patterns are used in the game:   [..] means stop, [.·] means go slow, [: ] means go. Real life also uses [·.] to indicate manual shunting without help from the signals.  
 * Combined main and shunting signal.  A main signal, with a shunting signal at the ground. To be used in front of a fork, where at least one way uses shunt signals and another uses colored signals.  
 #### Using them in-game
+* When adding signals, 4 aspect signals are default. The signal dialog has a pull down menu where you may select the other types.
 * For easy use, use the 4-aspect signals only.  For a more varied look, consider the other variants. The 4-aspect signals are still what you want for the busiest lines.
 * Use 3-aspect main signals, if you prefer their look.  Optionally place some distant signals manually. Placing a distant signal for every main signal approach the efficiency of the 4-aspect signals, but this could be a lot of work. A distant signal informs of the next signal down the line. So, don't get any other signal (or crossing lines) between the distant signal and the main signal it is supposed to repeat. 
 * Level crossing may be protected by level crossing signals. The signals will work with or without a level crossing, but crossings are what they are meant for. The distant signals inform train drivers about the crossing before they get there, letting them adjust speed accordingly. Also, they let you see violet signals. Again, no other signal between the distant signal and the crossing signal it repeats.
