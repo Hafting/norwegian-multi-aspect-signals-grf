@@ -8,7 +8,7 @@ grf {
     grfid: "HH\01\01";                 //First set, first version
     name: string(STR_GRF_NAME);
     desc: string(STR_GRF_DESCRIPTION);
-    version: 0;                        //v0, does not have all the planned functionality
+    version: 1;                        //v1
     min_compatible_version: 0;
     url: string(STR_GRF_URL);
 
