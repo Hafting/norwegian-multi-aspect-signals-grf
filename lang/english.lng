@@ -1,32 +1,26 @@
 ﻿##grflangid 0x01
 STR_GRF_NAME                                :Norwegian Multi Aspect Signals
-STR_GRF_DESCRIPTION                         :{}Multi Aspect Signals{}{}This GRF includes 3-aspect signal graphics (red, green, double green) for the Path and one-way path signal types (light signals not semaphores).{}This GRF requires an OpenTTD version which supports this feature such as JGR's patchpack v0.48.0 or later.{}Realistic braking must be enabled for extra signal aspects to be used.{}{}License: GPL v2
+STR_GRF_DESCRIPTION                         :{}Multi Aspect Signals{}{}This GRF includes 3-aspect signal graphics (red, green, double green) for the Path and one-way path signal types. 4-aspect signals are supported by combining a main signal and a distant signal into one. Level crossing signals and shunting signals are also provided. The signals are based on Norwegian railroad signals.{}This GRF requires an OpenTTD version which supports this feature such as JGR's patchpack v0.48.0 or later.{}Realistic braking must be enabled for extra signal aspects to be used.{}{}License: GPL v2
 STR_GRF_URL                                 :https://github.com/Hafting/norwegian-multi-aspect-signals-grf
-
-STR_PARAM_BLOCK_STYLE_NAME                  :Block signal style
-STR_PARAM_BLOCK_STYLE_DESC                  :This sets the visual style for normal block signals
-STR_BLOCK_STYLE_NEW                         :New
-STR_BLOCK_STYLE_TRADITIONAL                 :Traditional
 
 STR_PARAM_ROUTING_RESTRICTIONS_NAME         :Show routing restrictions
 STR_PARAM_ROUTING_RESTRICTIONS_DESC         :When enabled, signals with routing restriction programs atttached are shown with a blue signal post
 
 
 STR_PARAM_PBS_HEIGHT_NAME                   :Path signal height
-STR_PARAM_PBS_HEIGHT_DESC                   :Whether to use normal or short path signal graphics (short graphics requires that the block signal style parameter is set to Traditional)
+STR_PARAM_PBS_HEIGHT_DESC                   :Whether to use normal or short path signal graphics
 STR_PBS_HEIGHT_NORMAL                       :Normal
 STR_PBS_HEIGHT_CLEARANCE                    :Depending on available vertical clearance
 STR_PBS_HEIGHT_SHORT                        :Short
 
 STR_UNSUPPORTED_VERSION                     :Requires an OpenTTD version which supports this feature such as JGR's patchpack v0.48.0 or later.
 
-STR_UNSUPPORTED_PBS_HEIGHT_COMBINATION      :Short path signal graphics are not used when the block signal style is set to New.
 STR_UNSUPPORTED_VERTICAL_CLEARANCE          :This OpenTTD version does not support checking the vertical clearance above signals, this requires a version such as JGR's patchpack v0.52.2 or later.
 
-STR_STYLE_SHUNT                             :Shunt
+STR_STYLE_SHUNT                             :Shunt signal
 STR_STYLE_SHUNT_OPPOSITE                    :Shunt (opposite side)
 STR_STYLE_DIST                              :Distant signal
-STR_STYLE_LEVELCROSS                            :Level crossing signal
+STR_STYLE_LEVELCROSS                        :Level crossing signal
 STR_STYLE_DIST_LCROSS                       :Distant level crossing signal
 STR_STYLE_TMP                               :Simplified/temporary signal
 STR_STYLE_COMBINED                          :Combined normal/shunt

@@ -1,0 +1,28 @@
+##grflangid 0x2F
+STR_GRF_NAME                                :Norske multiaspektsignaler
+STR_GRF_DESCRIPTION                         :{}Multiaspektsignaler{}{}Denne GRF-fila inneholder hovedsignaler med 3 signalbilder (aspekter: rød, grønn og dobbelt grønn) som enveis og toveis signaler. Det er også signaler med 4 signalbilder, laget ved å sette et hovedsignal og et forsignal på samme mast. Det er også planovergangsignaler og skiftesignaler. Alle signaler er basert på norske jernbanesignaler.{}Denne GRF-fila trenger en versjon av OpenTTD som støtter multiaspektsignaler, som  JGR's patchpack v0.48.0 eller nyere.{}Realistisk bremsing må settes på i spillinnstillingene.{}{}Lisens: GPL v2
+STR_GRF_URL                                 :https://github.com/Hafting/norwegian-multi-aspect-signals-grf
+
+STR_PARAM_ROUTING_RESTRICTIONS_NAME         :Vis rutebegrensninger
+STR_PARAM_ROUTING_RESTRICTIONS_DESC         :Når på, vises signaler med egne rutebegrensningsprogrammer med blå stolpe
+
+
+STR_PARAM_PBS_HEIGHT_NAME                   :Signalhøyde
+STR_PARAM_PBS_HEIGHT_DESC                   :Bruke normale eller lave signaler
+STR_PBS_HEIGHT_NORMAL                       :Normal
+STR_PBS_HEIGHT_CLEARANCE                    :Avhengig av klaring
+STR_PBS_HEIGHT_SHORT                        :Kort
+
+STR_UNSUPPORTED_VERSION                     :Krever en OpenTTD-version som støtter dette, som JGR's patchpack v0.48.0 eller nyere.
+
+STR_UNSUPPORTED_VERTICAL_CLEARANCE          :Denne versjonen av OpenTTD kan ikke sjekke klaring over signaler. Trenger en vaersjon som JGR's patchpack v0.52.2 eller nyere.
+
+STR_STYLE_SHUNT                             :Skiftesignal
+STR_STYLE_SHUNT_OPPOSITE                    :Skiftesignal (motsatt side)
+STR_STYLE_DIST                              :Forsignaler
+STR_STYLE_LEVELCROSS                        :Planovergangsignal
+STR_STYLE_DIST_LCROSS                       :Forsignal for planovergangsignal
+STR_STYLE_TMP                               :Forenkla/midlertidig signal
+STR_STYLE_COMBINED                          :Kombinert hoved- og skiftesignal
+STR_STYLE_MAIN                              :Hovedsignaler
+

@@ -1,4 +1,4 @@
-/* multi-aspect-signals.nml */
+/* norwegian-multi-aspect-signals.nml */
 
 /*
     License: GPL v2
@@ -13,20 +13,6 @@ grf {
     url: string(STR_GRF_URL);
 
     param {
-        param_block_style {
-            type: int;
-            name: string(STR_PARAM_BLOCK_STYLE_NAME);
-            desc: string(STR_PARAM_BLOCK_STYLE_DESC);
-            min_value: 0;
-            max_value: 1;
-            def_value: 0;
-            names: {
-                0: string(STR_BLOCK_STYLE_TRADITIONAL);
-                1: string(STR_BLOCK_STYLE_NEW);
-            };
-        }
-    }
-    param {
         param_routing_restriction {
             type: bool;
             name: string(STR_PARAM_ROUTING_RESTRICTIONS_NAME);
@@ -34,31 +20,6 @@ grf {
             def_value: 1;
         }
     }
-/*
-    param {
-        param_aspect_style {
-            type: int;
-            name: string(STR_PARAM_ASPECT_STYLE_NAME);
-            desc: string(STR_PARAM_ASPECT_STYLE_DESC);
-            min_value: 0;
-            max_value: 2;
-            def_value: 1;
-            names: {
-                0: string(STR_ASPECT_STYLE_3);
-                1: string(STR_ASPECT_STYLE_4);
-                2: string(STR_ASPECT_STYLE_4_JAPANESE);
-            };
-        }
-    }
-    param {
-        param_custom_styles {  //Enables shunt & banner, requires jgrpp
-            type: bool;
-            name: string(STR_PARAM_CUSTOM_STYLES_NAME);
-            desc: string(STR_PARAM_CUSTOM_STYLES_DESC);
-            def_value: 1;
-        }
-    }
-*/
     param {
         param_pbs_height {
             type: int;
@@ -99,7 +60,7 @@ replace(param[10]) {
     }
 }
 
-if (param_block_style == 1 || param_pbs_height == 0) {
+if (param_pbs_height == 0) {
     param[11] = 0;
 } else {
     if (param_pbs_height == 2) {
@@ -113,12 +74,8 @@ if (param_block_style == 1 || param_pbs_height == 0) {
     }
 }
 
-if (param_block_style == 1 && param_pbs_height != 0) {
-    error(NOTICE, string(STR_UNSUPPORTED_PBS_HEIGHT_COMBINATION));
-} else {
-    if (param_pbs_height == 1 && !extended_feature_test("varaction2_signals_signal_vertical_clearance")) {
-        error(NOTICE, string(STR_UNSUPPORTED_VERTICAL_CLEARANCE));
-    }
+if (param_pbs_height == 1 && !extended_feature_test("varaction2_signals_signal_vertical_clearance")) {
+    error(NOTICE, string(STR_UNSUPPORTED_VERTICAL_CLEARANCE));
 }
 
 template tmpl_signals(x,y) {
@@ -186,9 +143,6 @@ spriteset (signals_pbs_yy,           "gfx/light-norwegian.png") { tmpl_pbs_signa
 spriteset (signals_pbs_oneway_y,     "gfx/light-norwegian.png") { tmpl_pbs_signals(10, 240) }
 spriteset (signals_pbs_oneway_yy,    "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 240) }
 
-spriteset (signals_new_block_red,    "gfx/light-generic.png") { tmpl_pbs_signals(10, 271) }
-spriteset (signals_new_block_green,  "gfx/light-generic.png") { tmpl_pbs_signals(26, 271) }
-
 //4-aspect signals, combining a main signal and a distant signal on the same pole
 spriteset (signals_pbs4_red,     "gfx/light-norwegian.png") { tmpl_pbs4_signals(10, 455) }
 spriteset (signals_pbs4_green,   "gfx/light-norwegian.png") { tmpl_pbs4_signals(26, 455) }
@@ -220,14 +174,11 @@ spriteset (signals_twolamp_white_ow,    "gfx/light-norwegian.png") { tmpl_pbs_si
 spriteset (signals_twolamp_violet_ow,   "gfx/light-norwegian.png") { tmpl_pbs_signals(26, 424) }
 
 
-spriteset (signals_new_block_y,      "gfx/light-generic.png") { tmpl_pbs_signals(10, 302) }
-spriteset (signals_new_block_yy,     "gfx/light-generic.png") { tmpl_pbs_signals(26, 302) }
+//spriteset (signals_pbs_oneway_red_short,   "gfx/light-generic.png") { tmpl_pbs_signals(10, 332) }
+//spriteset (signals_pbs_oneway_green_short, "gfx/light-generic.png") { tmpl_pbs_signals(26, 332) }
 
-spriteset (signals_pbs_oneway_red_short,   "gfx/light-generic.png") { tmpl_pbs_signals(10, 332) }
-spriteset (signals_pbs_oneway_green_short, "gfx/light-generic.png") { tmpl_pbs_signals(26, 332) }
-
-spriteset (signals_pbs_oneway_y_short,     "gfx/light-generic.png") { tmpl_pbs_signals(10, 363) }
-spriteset (signals_pbs_oneway_yy_short,    "gfx/light-generic.png") { tmpl_pbs_signals(26, 363) }
+//spriteset (signals_pbs_oneway_y_short,     "gfx/light-generic.png") { tmpl_pbs_signals(10, 363) }
+//spriteset (signals_pbs_oneway_yy_short,    "gfx/light-generic.png") { tmpl_pbs_signals(26, 363) }
 
 spriteset (signals_shunt_stop,   "gfx/shunt.png") { tmpl_signals(10, 50) }
 spriteset (signals_shunt_go,     "gfx/shunt.png") { tmpl_signals(40, 50) }
@@ -239,11 +190,11 @@ spriteset (signals_combined_y,     "gfx/light-combined.png") { tmpl_signals_comb
 spriteset (signals_combined_yy,    "gfx/light-combined.png") { tmpl_signals_combined(40, 100) }
 spriteset (signals_combined_shunt, "gfx/light-combined.png") { tmpl_signals_combined(10, 150) }
 
-spriteset (signals_combined_red_short,   "gfx/light-combined-short.png") { tmpl_signals_combined(10, 50) }
-spriteset (signals_combined_green_short, "gfx/light-combined-short.png") { tmpl_signals_combined(40, 50) }
-spriteset (signals_combined_y_short,     "gfx/light-combined-short.png") { tmpl_signals_combined(10, 100) }
-spriteset (signals_combined_yy_short,    "gfx/light-combined-short.png") { tmpl_signals_combined(40, 100) }
-spriteset (signals_combined_shunt_short, "gfx/light-combined-short.png") { tmpl_signals_combined(10, 150) }
+//spriteset (signals_combined_red_short,   "gfx/light-combined-short.png") { tmpl_signals_combined(10, 50) }
+//spriteset (signals_combined_green_short, "gfx/light-combined-short.png") { tmpl_signals_combined(40, 50) }
+//spriteset (signals_combined_y_short,     "gfx/light-combined-short.png") { tmpl_signals_combined(10, 100) }
+//spriteset (signals_combined_yy_short,    "gfx/light-combined-short.png") { tmpl_signals_combined(40, 100) }
+//spriteset (signals_combined_shunt_short, "gfx/light-combined-short.png") { tmpl_signals_combined(10, 150) }
 
 spriteset (signals_combined_oneway_red,   "gfx/light-combined.png") { tmpl_signals_combined(10, 200) }
 spriteset (signals_combined_oneway_green, "gfx/light-combined.png") { tmpl_signals_combined(40, 200) }
@@ -251,11 +202,11 @@ spriteset (signals_combined_oneway_y,     "gfx/light-combined.png") { tmpl_signa
 spriteset (signals_combined_oneway_yy,    "gfx/light-combined.png") { tmpl_signals_combined(40, 250) }
 spriteset (signals_combined_oneway_shunt, "gfx/light-combined.png") { tmpl_signals_combined(10, 300) }
 
-spriteset (signals_combined_oneway_red_short,   "gfx/light-combined-short.png") { tmpl_signals_combined(10, 200) }
-spriteset (signals_combined_oneway_green_short, "gfx/light-combined-short.png") { tmpl_signals_combined(40, 200) }
-spriteset (signals_combined_oneway_y_short,     "gfx/light-combined-short.png") { tmpl_signals_combined(10, 250) }
-spriteset (signals_combined_oneway_yy_short,    "gfx/light-combined-short.png") { tmpl_signals_combined(40, 250) }
-spriteset (signals_combined_oneway_shunt_short, "gfx/light-combined-short.png") { tmpl_signals_combined(10, 300) }
+//spriteset (signals_combined_oneway_red_short,   "gfx/light-combined-short.png") { tmpl_signals_combined(10, 200) }
+//spriteset (signals_combined_oneway_green_short, "gfx/light-combined-short.png") { tmpl_signals_combined(40, 200) }
+//spriteset (signals_combined_oneway_y_short,     "gfx/light-combined-short.png") { tmpl_signals_combined(10, 250) }
+//spriteset (signals_combined_oneway_yy_short,    "gfx/light-combined-short.png") { tmpl_signals_combined(40, 250) }
+//spriteset (signals_combined_oneway_shunt_short, "gfx/light-combined-short.png") { tmpl_signals_combined(10, 300) }
 
 
 switch(FEAT_SIGNALS, SELF, signal_switch_block_traditional, [
@@ -268,20 +219,6 @@ switch(FEAT_SIGNALS, SELF, signal_switch_block_traditional, [
     3: signals_block_yy;
 }
 
-switch(FEAT_SIGNALS, SELF, signal_switch_block_new, [
-        STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
-        (extra_callback_info2 & 0x000000FF)
-    ]) {
-    0: signals_new_block_red;
-    1: signals_new_block_green;
-    2: signals_new_block_y;
-    3: signals_new_block_yy;
-}
-
-switch (FEAT_SIGNALS, SELF, signal_switch_block, param_block_style) {
-    0: signal_switch_block_traditional;
-    1: signal_switch_block_new;
-}
 
 //Main signals. 3-aspect, two way
 switch(FEAT_SIGNALS, SELF, signal_switch_pbs_std, [
@@ -289,33 +226,19 @@ switch(FEAT_SIGNALS, SELF, signal_switch_pbs_std, [
         (extra_callback_info2 & 0x000000FF)
     ]) {
     0: signals_pbs_red;
-//    1: signals_pbs_green;
     2: signals_pbs_y;
-//    3: signals_pbs_yy;
     signals_pbs_green;
 }
 
 
-
-switch(FEAT_SIGNALS, SELF, signal_switch_pbs, signal_vertical_clearance < param[11]) {
-    default: signal_switch_pbs_std;
-    1: signal_switch_block_new;
-}
-
 //Main signals, 3 aspect
 switch(FEAT_SIGNALS, SELF, signal_switch_pbs_oneway, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
-        (extra_callback_info2 & 0x000000FF) | (signal_vertical_clearance < param[11] ? 0x100 : 0)
+        (extra_callback_info2 & 0x000000FF)
     ]) {
     0: signals_pbs_oneway_red;
     1: signals_pbs_oneway_green;
     2: signals_pbs_oneway_y;
-//    3: signals_pbs_oneway_yy;
-
-    0x100: signals_pbs_oneway_red_short;
-    0x101: signals_pbs_oneway_green_short;
-    0x102: signals_pbs_oneway_y_short;
-//    0x103: signals_pbs_oneway_yy_short;
     signals_pbs_oneway_green; //default, catches unused higher aspects
 }
 
@@ -329,23 +252,30 @@ switch(FEAT_SIGNALS, SELF, signal_switch_pbs4_oneway, [
     2: signals_pbs4_oneway_y;
     3: signals_pbs4_oneway_yy;
 
- //!!! replace these with main signals instead, after bridge testing
-    0x100: signals_pbs_oneway_red_short;
-    0x101: signals_pbs_oneway_green_short;
-    0x102: signals_pbs_oneway_y_short;
-    0x103: signals_pbs_oneway_yy_short;
+    //Fall back to main signals without the distant signal - they are shorter.
+    0x100: signals_pbs_oneway_red;
+    0x101: signals_pbs_oneway_green;
+    0x102: signals_pbs_oneway_y;
+    0x103: signals_pbs_oneway_yy;
     signals_pbs4_oneway_green; //default, catches unused higher aspects
 }
 
 switch(FEAT_SIGNALS, SELF, signal_switch_pbs4, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
-        (extra_callback_info2 & 0x000000FF)
+        (extra_callback_info2 & 0x000000FF) | (signal_vertical_clearance < param[11] ? 0x100 : 0)
     ]) {
     0: signals_pbs4_red;
     1: signals_pbs4_green;
     2: signals_pbs4_y;
     3: signals_pbs4_yy;
-    signals_pbs4_green;
+
+    //Fall back to shorter main signals without the distant signal. Bridge too low...
+    0x100: signals_pbs_red;
+    0x101: signals_pbs_green;
+    0x102: signals_pbs_y;
+    0x103: signals_pbs_yy;
+
+    signals_pbs4_green; //default, in case someone enables more aspects
 }
 
 
@@ -509,55 +439,41 @@ UK is different, they turn the dwarf signal off in some cases.
 
 switch(FEAT_SIGNALS, SELF, signal_switch_combined_pbs, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
-        (extra_callback_info2 & 0x000000FF) | (signal_vertical_clearance < param[11] ? 0x100 : 0)
+        (extra_callback_info2 & 0x000000FF)
     ]) {
     0: signals_combined_red;
     1: signals_combined_green;
     2: signals_combined_y;
     3: signals_combined_green; //We do 3 aspects only
     0xFF: signals_combined_shunt;
-
-    0x100: signals_combined_red_short;
-    0x101: signals_combined_green_short;
-    0x102: signals_combined_y_short;
-    0x103: signals_combined_green_short; //We do 3 aspects only
-    0x1FF: signals_combined_shunt_short;
 }
 
 switch(FEAT_SIGNALS, SELF, signal_switch_combined_pbs_oneway, [
         STORE_TEMP(param[10] + (hasbit(extra_callback_info2, 24) ? 2 : 1), 0x100),
-        (extra_callback_info2 & 0x000000FF) | (signal_vertical_clearance < param[11] ? 0x100 : 0)
+        (extra_callback_info2 & 0x000000FF)
     ]) {
     0: signals_combined_oneway_red;
     1: signals_combined_oneway_green;
     2: signals_combined_oneway_y;
     3: signals_combined_oneway_green; //3 aspects only
     0xFF: signals_combined_oneway_shunt;
-
-    0x100: signals_combined_oneway_red_short;
-    0x101: signals_combined_oneway_green_short;
-    0x102: signals_combined_oneway_y_short;
-    0x103: signals_combined_oneway_green_short; //3 aspects only
-    0x1FF: signals_combined_oneway_shunt_short;
 }
 
-//WHAT are the first-column numbers? !!! look it up !!!
+//WHAT are the first-column numbers?
 //First column number breakdown
 //The last hex digit matches the custom style number, deciding which menu the signal appears on
 //Style 0 apparently replaces the stock signals in openttd
-//Other digits must make the number unique, or nmlc complains. 
+//Other digits must make the number unique, or nmlc complains.
+//guess: 0x00 block, 0x04 two-way path, 0x05 one-way path, 0x07 no-entry 
 //extra_callback_info2: RRTTVVSS, (RR reserved), masking picks the TTVV part.
 switch(FEAT_SIGNALS, SELF, switch_signals, (extra_callback_info2 & 0x00FFFF00) | signal_style) {
-        0x0: signal_switch_block;        //light, block
+        0x0: signal_switch_block_traditional;//light, block
     0x40000: signal_switch_pbs4;
     0x50000: signal_switch_pbs4_oneway;
-    0x40008: signal_switch_pbs;          //light, PBS
+    0x40008: signal_switch_pbs_std;      //light, PBS
     0x50008: signal_switch_pbs_oneway;   //light, PBS oneway
     0x40001: signal_switch_shunt;        //shunt
     0x40002: signal_switch_shunt;        //shunt (opposite)
-//    0x70001: signal_switch_shunt_no_entry; //shunt no entry
-//    0x70002: signal_switch_shunt_no_entry; //shunt no entry (opposite)
-//        0x3: signal_switch_banner_block; //banner, block
     0x40003: signal_switch_distant_pbs;   //distant, PBS
     0x50003: signal_switch_distant_pbs_oneway; //distant, PBS oneway
     0x40004: signal_switch_combined_pbs;        //combined, PBS
@@ -583,7 +499,7 @@ item (FEAT_SIGNALS, custom_signals, 0) {
     }
 }
 
-//if (param_custom_styles) {
+
     item (FEAT_SIGNALS, custom_signals, 0) {
         //The signal menu gets the same order as the definitions here.
         property {
@@ -641,7 +557,7 @@ item (FEAT_SIGNALS, custom_signals, 0) {
 
         }
     }
-//}
+
 
 /*
 Explanations
